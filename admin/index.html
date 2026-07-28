@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel Admin - Tu Psicólogo de Confianza</title>
+    <!-- Usar admin.css en lugar de style.css para el dashboard -->
+    <link rel="stylesheet" href="/admin/css/admin.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar Menu -->
+        <aside class="sidebar">
+            <div class="logo">
+                <h2>Panel Admin</h2>
+                <p>Tu Psicólogo</p>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#" id="navMessages" class="active">📝 Gestor de Citas</a></li>
+                    <li><a href="#" id="navUsers">👥 Gestor de Usuarios</a></li>
+                    <li><a href="../index.html" target="_blank">🌐 Ver Sitio Web</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="topbar">
+                <h1 id="pageTitle">Gestión de Citas y Agendas</h1>
+                <div class="user-info">
+                    <span id="adminUsername" class="greeting">Hola, Administrador</span>
+                    <button id="logoutBtn" class="btn btn-danger">Salir</button>
+                    <div class="avatar">A</div>
+                </div>
+            </header>
+
+            <div class="content-wrapper">
+                <section class="content-panel active" id="panelMessages">
+                    <div class="panel-header">
+                        <h2>Últimas Solicitudes</h2>
+                        <button id="refreshBtn" class="btn btn-outline">↻ Refrescar Mensajes</button>
+                    </div>
+                    
+                    <div class="table-container">
+                        <table id="appointmentsTable">
+                            <thead>
+                                <tr>
+                                    <th>Fecha Requerida</th>
+                                    <th>Paciente / Cliente</th>
+                                    <th>Contacto</th>
+                                    <th>Motivo de Consulta</th>
+                                    <th>Estado</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Las citas se cargarán aquí -->
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <section class="content-panel" id="panelUsers">
+                    <div class="panel-header">
+                        <h2>Usuarios del Sistema</h2>
+                        <div style="display: flex; gap: 10px;">
+                            <button id="refreshUsersBtn" class="btn btn-outline">↻ Refrescar</button>
+                            <button id="newUserBtn" class="btn btn-primary">+ Nuevo Usuario</button>
+                        </div>
+                    </div>
+                    
+                    <div class="table-container">
+                        <table id="usersTable">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Nombre de Usuario</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Los usuarios se cargarán aquí -->
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal for viewing full message -->
+    <div id="messageModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" id="closeMsgModal">&times;</span>
+            <h2>Mensaje del Paciente</h2>
+            <p id="modalMessageText"></p>
+        </div>
+    </div>
+
+    <!-- Modal for scheduling appointment -->
+    <div id="scheduleModal" class="modal">
+        <div class="modal-content" style="max-width: 450px;">
+            <span class="close-btn" id="closeScheduleModal">&times;</span>
+            <h2>Agendar Cita</h2>
+            <p style="margin-bottom: 20px; font-size: 0.9rem; color: var(--text-muted); background: transparent; border: none; padding: 0;">Se enviará una invitación automática al paciente por correo electrónico.</p>
+            <form id="scheduleForm">
+                <input type="hidden" id="scheduleMsgId" name="msg_id">
+                <div class="form-group" style="display: flex; gap: 15px;">
+                    <div style="flex: 1;">
+                        <label for="fechaCita">Fecha</label>
+                        <input type="date" id="fechaCita" name="fecha_cita" required style="width: 100%; padding: 10px; border: 1px solid var(--border-color); border-radius: var(--radius-md);">
+                    </div>
+                    <div style="flex: 1;">
+                        <label for="horaCita">Hora</label>
+                        <input type="time" id="horaCita" name="hora_cita" required style="width: 100%; padding: 10px; border: 1px solid var(--border-color); border-radius: var(--radius-md);">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="modalidadCita">Modalidad</label>
+                    <select id="modalidadCita" name="modalidad" required style="width: 100%; padding: 10px; border: 1px solid var(--border-color); border-radius: var(--radius-md); background-color: #F9FAFB;">
+                        <option value="Virtual">💻 Virtual (Zoom/Meet)</option>
+                        <option value="Presencial">🏢 Presencial (Consultorio)</option>
+                    </select>
+                </div>
+                <button type="submit" id="btnSubmitSchedule" class="btn btn-primary" style="width: 100%; padding: 12px; font-weight: bold; margin-top: 10px;">📅 Agendar y Enviar Correo</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal for creating new user -->
+    <div id="userModal" class="modal">
+        <div class="modal-content" style="max-width: 400px;">
+            <span class="close-btn" id="closeUserModal">&times;</span>
+            <h2>Crear Nuevo Usuario</h2>
+            <form id="createUserForm" style="margin-top: 20px;">
+                <div class="form-group">
+                    <label for="newUsername">Usuario</label>
+                    <input type="text" id="newUsername" name="username" placeholder="pj: admin2" required>
+                </div>
+                <div class="form-group">
+                    <label for="newPassword">Contraseña</label>
+                    <input type="password" id="newPassword" name="password" placeholder="••••••••" required>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%; padding: 12px; font-weight: bold;">Crear Usuario</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="/admin/js/script.js"></script>
+</body>
+</html>

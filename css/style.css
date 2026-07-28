@@ -1,0 +1,414 @@
+* {
+  box-sizing: border-box;
+}
+html {
+  scroll-behavior: smooth;
+}
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #f4f8fb;
+  color: #333;
+}
+header {
+  background: linear-gradient(135deg, #6a9fb5, #56c1a7);
+  color: white;
+  padding: 2rem;
+  text-align: center;
+  animation: fadeIn 1.5s ease-in-out;
+}
+header h1 {
+  margin: 0;
+  font-size: 2.5rem;
+}
+header p {
+  margin-top: 0.5rem;
+  font-size: 1.2rem;
+}
+.btn-principal {
+  background-color: #56c1a7;
+  color: white;
+  padding: 0.75rem 1.5rem;
+  text-decoration: none;
+  font-weight: bold;
+  border-radius: 8px;
+  display: inline-block;
+  margin-top: 1.5rem;
+  transition: background-color 0.3s ease;
+}
+.btn-principal:hover {
+  background-color: #489e8e;
+}
+section {
+  padding: 2rem;
+  animation: fadeInUp 1s ease;
+}
+.servicios, .sobre-nosotros, .contacto {
+  background-color: white;
+  margin: 1rem auto;
+  padding: 2rem;
+  border-radius: 12px;
+  max-width: 800px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+.servicios ul {
+  padding-left: 1.5rem;
+}
+footer {
+  text-align: center;
+  background-color: #6a9fb5;
+  color: white;
+  padding: 1rem;
+  margin-top: 2rem;
+}
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+label {
+  font-weight: bold;
+  font-size: 0.9rem;
+  color: #555;
+  margin-bottom: 0.25rem;
+}
+input, textarea, button {
+  padding: 0.75rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-family: inherit;
+}
+button {
+  background-color: #6a9fb5;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-top: 0.5rem;
+}
+button:hover {
+  background-color: #5a8fa2;
+}
+@keyframes fadeIn {
+  from {opacity: 0;}
+  to {opacity: 1;}
+}
+@keyframes fadeInUp {
+  from {opacity: 0; transform: translateY(20px);}
+  to {opacity: 1; transform: translateY(0);}
+}
+@media (max-width: 600px) {
+  header h1 {
+    font-size: 1.8rem;
+  }
+  header p {
+    font-size: 1rem;
+  }
+  section {
+    padding: 1rem;
+  }
+}
+
+/* --- Estilos de la Tarjeta 3D con QR --- */
+.tarjeta-section {
+  background-color: white;
+  margin: 1rem auto;
+  padding: 2.5rem 2rem;
+  border-radius: 16px;
+  max-width: 850px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+  text-align: center;
+}
+
+.tarjeta-section h2 {
+  color: #3B7A75;
+  margin-bottom: 0.5rem;
+}
+
+.subtitle {
+  color: #666;
+  font-size: 0.95rem;
+  margin-bottom: 2rem;
+}
+
+.card-3d-container {
+  perspective: 1200px;
+  width: 100%;
+  max-width: 540px;
+  height: 290px;
+  margin: 0 auto 1.5rem auto;
+  cursor: pointer;
+}
+
+.card-3d {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s;
+  border-radius: 18px;
+  box-shadow: 0 15px 35px rgba(59, 122, 117, 0.18), 0 5px 15px rgba(0,0,0,0.08);
+}
+
+.card-3d.flipped {
+  transform: rotateY(180deg);
+}
+
+.card-face {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  border-radius: 18px;
+  background: #FAF8F5;
+  border: 1px solid rgba(197, 160, 89, 0.3);
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+/* Frente */
+.card-front {
+  background: linear-gradient(135deg, #FAF8F5 0%, #F3EFE6 100%);
+}
+
+.card-border {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  right: 8px;
+  bottom: 8px;
+  border: 1px solid rgba(59, 122, 117, 0.15);
+  border-radius: 12px;
+  pointer-events: none;
+}
+
+.card-header-logo {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+}
+
+.logo-circle {
+  width: 68px;
+  height: 68px;
+  border-radius: 50%;
+  border: 2px solid #3B7A75;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255,255,255,0.7);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  position: relative;
+}
+
+.logo-letters {
+  font-family: 'Georgia', serif;
+  font-size: 1.6rem;
+  font-weight: bold;
+  color: #3B7A75;
+  line-height: 1;
+}
+
+.logo-psi {
+  font-size: 0.9rem;
+  color: #C5A059;
+  position: absolute;
+  right: -10px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: #FAF8F5;
+  padding: 2px;
+  border-radius: 50%;
+}
+
+.header-titles {
+  text-align: left;
+}
+
+.card-name {
+  margin: 0;
+  font-family: 'Georgia', serif;
+  font-size: 1.35rem;
+  letter-spacing: 2px;
+  color: #2D5E5A;
+}
+
+.card-profession {
+  margin: 2px 0 0 0;
+  font-size: 0.85rem;
+  letter-spacing: 3px;
+  color: #C5A059;
+  font-weight: 600;
+}
+
+.card-cip {
+  margin: 2px 0 0 0;
+  font-size: 0.75rem;
+  color: #777;
+}
+
+.card-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #C5A059, transparent);
+  margin: 0.5rem 0;
+}
+
+.card-quote {
+  font-style: italic;
+  font-size: 0.92rem;
+  color: #4A6360;
+  border-left: 3px solid #C5A059;
+  padding-left: 0.8rem;
+  text-align: left;
+  line-height: 1.4;
+  margin: 0.5rem 0;
+}
+
+.card-flip-prompt {
+  font-size: 0.75rem;
+  color: #3B7A75;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 4px;
+  font-weight: 600;
+  opacity: 0.8;
+}
+
+/* Reverso */
+.card-back {
+  transform: rotateY(180deg);
+  background: linear-gradient(135deg, #F5F1E8 0%, #EFEADF 100%);
+  padding: 1.2rem;
+}
+
+.card-back-grid {
+  display: grid;
+  grid-template-columns: 1fr 120px;
+  gap: 1rem;
+  align-items: center;
+  height: 100%;
+}
+
+.contact-info {
+  text-align: left;
+  font-size: 0.82rem;
+  color: #333;
+
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.info-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #2D5E5A;
+
+  font-weight: 500;
+}
+
+.info-item .icon {
+  font-size: 1rem;
+}
+
+.tagline {
+  font-style: italic;
+  font-size: 0.78rem;
+  color: #C5A059;
+  margin-top: 0.4rem;
+  font-weight: 600;
+}
+
+.qr-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: white;
+  padding: 8px;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.06);
+  border: 1px solid #E5DFD3;
+}
+
+#qrCodeCanvas canvas, #qrCodeCanvas img {
+  width: 95px !important;
+  height: 95px !important;
+  display: block;
+}
+
+.qr-label {
+  font-size: 0.65rem;
+  color: #666;
+  margin-top: 4px;
+  text-align: center;
+}
+
+.card-footer-banner {
+  background: #3B7A75;
+  color: white;
+  font-size: 0.68rem;
+  letter-spacing: 1.5px;
+  padding: 4px;
+  border-radius: 6px;
+  margin-top: 6px;
+  font-weight: 600;
+}
+
+.card-controls {
+  display: flex;
+  gap: 0.8rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 1.2rem;
+}
+
+.btn-secondary {
+  background-color: #FAF8F5;
+  color: #3B7A75;
+  border: 1.5px solid #3B7A75;
+  padding: 0.6rem 1.2rem;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.25s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.btn-secondary:hover {
+  background-color: #3B7A75;
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(59, 122, 117, 0.2);
+}
+
+@media (max-width: 600px) {
+  .card-3d-container {
+    height: 320px;
+  }
+  .card-back-grid {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+  }
+  .qr-container {
+    margin: 0 auto;
+  }
+}
+
