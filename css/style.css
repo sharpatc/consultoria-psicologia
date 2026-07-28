@@ -1,124 +1,424 @@
 * {
   box-sizing: border-box;
 }
+
 html {
   scroll-behavior: smooth;
 }
+
 body {
   margin: 0;
-  font-family: 'Segoe UI', sans-serif;
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
   background-color: #f4f8fb;
   color: #333;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -webkit-text-size-adjust: 100%;
 }
-header {
-  background: linear-gradient(135deg, #6a9fb5, #56c1a7);
-  color: white;
-  padding: 2rem;
-  text-align: center;
-  animation: fadeIn 1.5s ease-in-out;
+
+img {
+  max-width: 100%;
+  height: auto;
 }
-header h1 {
-  margin: 0;
-  font-size: 2.5rem;
+
+/* ============================================
+   NAVIGATION
+   ============================================ */
+.site-nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(45, 94, 90, 0.97);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 2px 12px rgba(0,0,0,0.15);
 }
-header p {
-  margin-top: 0.5rem;
-  font-size: 1.2rem;
+
+.nav-container {
+  max-width: 900px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 1.5rem;
+  height: 56px;
 }
-.btn-principal {
-  background-color: #56c1a7;
-  color: white;
-  padding: 0.75rem 1.5rem;
+
+.nav-brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
   text-decoration: none;
-  font-weight: bold;
-  border-radius: 8px;
-  display: inline-block;
-  margin-top: 1.5rem;
-  transition: background-color 0.3s ease;
-}
-.btn-principal:hover {
-  background-color: #489e8e;
-}
-section {
-  padding: 2rem;
-  animation: fadeInUp 1s ease;
-}
-.servicios, .sobre-nosotros, .contacto {
-  background-color: white;
-  margin: 1rem auto;
-  padding: 2rem;
-  border-radius: 12px;
-  max-width: 800px;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-}
-.servicios ul {
-  padding-left: 1.5rem;
-}
-footer {
-  text-align: center;
-  background-color: #6a9fb5;
   color: white;
-  padding: 1rem;
-  margin-top: 2rem;
 }
-form {
+
+.nav-logo {
+  width: 32px;
+  height: 32px;
+  background: #C5A059;
+  color: #2D5E5A;
+  border-radius: 50%;
   display: flex;
-  flex-direction: column;
-  gap: 1rem;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 0.8rem;
+  font-family: 'Georgia', serif;
 }
-.form-group {
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
-}
-label {
-  font-weight: bold;
-  font-size: 0.9rem;
-  color: #555;
-  margin-bottom: 0.25rem;
-}
-input, textarea, button {
-  padding: 0.75rem;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  font-size: 1rem;
-  font-family: inherit;
-}
-button {
-  background-color: #6a9fb5;
+
+.nav-brand-text {
+  font-weight: 700;
+  font-size: 0.95rem;
   color: white;
-  font-weight: bold;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-links li a {
+  display: block;
+  padding: 8px 14px;
+  color: rgba(255,255,255,0.8);
+  text-decoration: none;
+  font-size: 0.85rem;
+  font-weight: 500;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+}
+
+.nav-links li a:hover {
+  color: white;
+  background: rgba(255,255,255,0.1);
+}
+
+.nav-cta {
+  background: #C5A059 !important;
+  color: #2D5E5A !important;
+  font-weight: 700 !important;
+  border-radius: 50px !important;
+  margin-left: 8px;
+  padding: 8px 18px !important;
+}
+
+.nav-cta:hover {
+  background: #D4AF37 !important;
+}
+
+.nav-toggle {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  background: none;
+  border: none;
   cursor: pointer;
-  transition: background-color 0.3s ease;
-  margin-top: 0.5rem;
+  padding: 6px;
+  -webkit-tap-highlight-color: transparent;
 }
-button:hover {
-  background-color: #5a8fa2;
+
+.hamburger-line {
+  width: 22px;
+  height: 2px;
+  background: white;
+  border-radius: 2px;
+  transition: all 0.3s ease;
 }
-@keyframes fadeIn {
-  from {opacity: 0;}
-  to {opacity: 1;}
+
+.nav-toggle.active .hamburger-line:nth-child(1) {
+  transform: rotate(45deg) translate(5px, 5px);
 }
-@keyframes fadeInUp {
-  from {opacity: 0; transform: translateY(20px);}
-  to {opacity: 1; transform: translateY(0);}
+
+.nav-toggle.active .hamburger-line:nth-child(2) {
+  opacity: 0;
 }
-@media (max-width: 600px) {
-  header h1 {
-    font-size: 1.8rem;
+
+.nav-toggle.active .hamburger-line:nth-child(3) {
+  transform: rotate(-45deg) translate(5px, -5px);
+}
+
+@media (max-width: 768px) {
+  .nav-toggle {
+    display: flex;
   }
-  header p {
-    font-size: 1rem;
+
+  .nav-links {
+    position: fixed;
+    top: 56px;
+    left: 0;
+    right: 0;
+    background: rgba(45, 94, 90, 0.98);
+    backdrop-filter: blur(12px);
+    flex-direction: column;
+    padding: 12px 16px;
+    gap: 4px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+    transform: translateY(-120%);
+    opacity: 0;
+    transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    pointer-events: none;
   }
-  section {
-    padding: 1rem;
+
+  .nav-links.open {
+    transform: translateY(0);
+    opacity: 1;
+    pointer-events: all;
+  }
+
+  .nav-links li {
+    width: 100%;
+  }
+
+  .nav-links li a {
+    padding: 12px 16px;
+    font-size: 0.95rem;
+    border-radius: 8px;
+  }
+
+  .nav-cta {
+    margin-left: 0 !important;
+    margin-top: 8px;
+    text-align: center;
   }
 }
 
-/* --- Estilos de la Tarjeta 3D con QR --- */
+/* ============================================
+   HEADER
+   ============================================ */
+header {
+  background: linear-gradient(135deg, #3B7A75, #2D5E5A, #3B7A75);
+  color: white;
+  padding: 4rem 2rem 3.5rem;
+  text-align: center;
+  animation: fadeIn 1.5s ease-in-out;
+  position: relative;
+  overflow: hidden;
+}
+
+header::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255,255,255,0.05) 0%, transparent 70%);
+  animation: headerPulse 8s ease-in-out infinite;
+}
+
+@keyframes headerPulse {
+  0%, 100% { transform: scale(1); opacity: 0.5; }
+  50% { transform: scale(1.1); opacity: 0.8; }
+}
+
+header h1 {
+  margin: 0;
+  font-size: 2.8rem;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  position: relative;
+  z-index: 1;
+}
+
+header p {
+  margin-top: 0.75rem;
+  font-size: 1.25rem;
+  opacity: 0.9;
+  position: relative;
+  z-index: 1;
+}
+
+.btn-principal {
+  background-color: #C5A059;
+  color: #2D5E5A;
+  padding: 0.85rem 2rem;
+  text-decoration: none;
+  font-weight: 700;
+  border-radius: 50px;
+  display: inline-block;
+  margin-top: 1.5rem;
+  transition: all 0.3s ease;
+  position: relative;
+  z-index: 1;
+  letter-spacing: 0.5px;
+  box-shadow: 0 4px 15px rgba(197, 160, 89, 0.3);
+}
+
+.btn-principal:hover {
+  background-color: #D4AF37;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(197, 160, 89, 0.4);
+}
+
+/* ============================================
+   SECTIONS
+   ============================================ */
+section {
+  scroll-margin-top: 64px;
+  padding: 2.5rem 2rem;
+  animation: fadeInUp 1s ease;
+}
+
+.servicios, .sobre-nosotros, .contacto {
+  background-color: white;
+  margin: 1.5rem auto;
+  padding: 2.5rem;
+  border-radius: 16px;
+  max-width: 800px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+}
+
+section h2 {
+  color: #2D5E5A;
+  margin-bottom: 1rem;
+  font-size: 1.6rem;
+  font-weight: 700;
+}
+
+.sobre-nosotros p {
+  color: #555;
+  line-height: 1.8;
+  font-size: 1.05rem;
+}
+
+/* ============================================
+   SERVICIOS
+   ============================================ */
+.servicios ul {
+  padding-left: 0;
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+.servicios li {
+  padding: 10px 14px;
+  background: #f0f7f6;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  color: #2D5E5A;
+  font-weight: 500;
+  border-left: 3px solid #3B7A75;
+  transition: transform 0.2s ease;
+}
+
+.servicios li:hover {
+  transform: translateX(4px);
+}
+
+/* ============================================
+   FORM
+   ============================================ */
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+label {
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: #2D5E5A;
+  margin-bottom: 0.15rem;
+}
+
+input, textarea {
+  padding: 0.85rem 1rem;
+  border: 1.5px solid #d1d5db;
+  border-radius: 10px;
+  font-size: 1rem;
+  font-family: inherit;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  background: #fafafa;
+}
+
+input:focus, textarea:focus {
+  outline: none;
+  border-color: #3B7A75;
+  box-shadow: 0 0 0 3px rgba(59, 122, 117, 0.15);
+  background: white;
+}
+
+input::placeholder, textarea::placeholder {
+  color: #9ca3af;
+}
+
+button[type="submit"] {
+  background: linear-gradient(135deg, #3B7A75, #2D5E5A);
+  color: white;
+  font-weight: 700;
+  padding: 1rem;
+  border: none;
+  border-radius: 10px;
+  font-size: 1rem;
+  font-family: inherit;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 0.5rem;
+  letter-spacing: 0.5px;
+  box-shadow: 0 4px 12px rgba(59, 122, 117, 0.25);
+}
+
+button[type="submit"]:hover {
+  background: linear-gradient(135deg, #2D5E5A, #1e3f3c);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(59, 122, 117, 0.35);
+}
+
+button[type="submit"]:active {
+  transform: translateY(0);
+}
+
+.contacto > p {
+  margin-top: 1.5rem;
+  font-size: 0.9rem;
+  color: #666;
+  text-align: center;
+  line-height: 1.7;
+}
+
+/* ============================================
+   FOOTER
+   ============================================ */
+footer {
+  text-align: center;
+  background: linear-gradient(135deg, #2D5E5A, #3B7A75);
+  color: white;
+  padding: 1.5rem 1rem;
+  margin-top: 0;
+  font-size: 0.9rem;
+}
+
+/* ============================================
+   ANIMATIONS
+   ============================================ */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ============================================
+   TARJETA 3D
+   ============================================ */
 .tarjeta-section {
   background-color: white;
-  margin: 1rem auto;
+  margin: 1.5rem auto;
   padding: 2.5rem 2rem;
   border-radius: 16px;
   max-width: 850px;
@@ -135,6 +435,9 @@ button:hover {
   color: #666;
   font-size: 0.95rem;
   margin-bottom: 2rem;
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .card-3d-container {
@@ -144,6 +447,7 @@ button:hover {
   height: 290px;
   margin: 0 auto 1.5rem auto;
   cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .card-3d {
@@ -165,6 +469,7 @@ button:hover {
   width: 100%;
   height: 100%;
   backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
   border-radius: 18px;
   background: #FAF8F5;
   border: 1px solid rgba(197, 160, 89, 0.3);
@@ -201,6 +506,7 @@ button:hover {
 .logo-circle {
   width: 68px;
   height: 68px;
+  min-width: 68px;
   border-radius: 50%;
   border: 2px solid #3B7A75;
   display: flex;
@@ -305,7 +611,6 @@ button:hover {
   text-align: left;
   font-size: 0.82rem;
   color: #333;
-
   display: flex;
   flex-direction: column;
   gap: 0.4rem;
@@ -316,12 +621,13 @@ button:hover {
   align-items: center;
   gap: 0.5rem;
   color: #2D5E5A;
-
   font-weight: 500;
+  word-break: break-word;
 }
 
 .info-item .icon {
   font-size: 1rem;
+  flex-shrink: 0;
 }
 
 .tagline {
@@ -380,8 +686,8 @@ button:hover {
   background-color: #FAF8F5;
   color: #3B7A75;
   border: 1.5px solid #3B7A75;
-  padding: 0.6rem 1.2rem;
-  border-radius: 8px;
+  padding: 0.65rem 1.3rem;
+  border-radius: 10px;
   font-size: 0.9rem;
   font-weight: 600;
   cursor: pointer;
@@ -390,6 +696,8 @@ button:hover {
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
+  white-space: nowrap;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .btn-secondary:hover {
@@ -399,16 +707,384 @@ button:hover {
   box-shadow: 0 4px 12px rgba(59, 122, 117, 0.2);
 }
 
-@media (max-width: 600px) {
-  .card-3d-container {
-    height: 320px;
+/* ============================================
+   SCROLLBAR
+   ============================================ */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 3px;
+}
+
+/* ============================================
+   RESPONSIVE: TABLETS (max-width: 768px)
+   ============================================ */
+@media (max-width: 768px) {
+  header {
+    padding: 3rem 1.5rem 2.5rem;
   }
-  .card-back-grid {
+
+  header h1 {
+    font-size: 2.2rem;
+  }
+
+  header p {
+    font-size: 1.1rem;
+  }
+
+  section {
+    padding: 1.5rem 1rem;
+  }
+
+  .servicios, .sobre-nosotros, .contacto {
+    padding: 2rem 1.5rem;
+    margin: 1rem auto;
+    border-radius: 14px;
+  }
+
+  .servicios ul {
     grid-template-columns: 1fr;
-    gap: 0.5rem;
   }
-  .qr-container {
-    margin: 0 auto;
+
+  .tarjeta-section {
+    padding: 2rem 1.5rem;
+    margin: 1rem auto;
+  }
+
+  .card-name {
+    font-size: 1.15rem;
+    letter-spacing: 1px;
+  }
+
+  .card-profession {
+    font-size: 0.78rem;
+    letter-spacing: 2px;
+  }
+
+  .logo-circle {
+    width: 56px;
+    height: 56px;
+    min-width: 56px;
+  }
+
+  .logo-letters {
+    font-size: 1.3rem;
+  }
+
+  .card-header-logo {
+    gap: 0.8rem;
+  }
+
+  .card-quote {
+    font-size: 0.85rem;
+  }
+
+  .card-controls {
+    gap: 0.6rem;
+  }
+
+  .btn-secondary {
+    padding: 0.6rem 1rem;
+    font-size: 0.85rem;
   }
 }
 
+/* ============================================
+   RESPONSIVE: MOVILES GRANDES (max-width: 540px)
+   ============================================ */
+@media (max-width: 540px) {
+  header {
+    padding: 2.5rem 1.25rem 2rem;
+  }
+
+  header h1 {
+    font-size: 1.75rem;
+    letter-spacing: -0.3px;
+  }
+
+  header p {
+    font-size: 1rem;
+    margin-top: 0.5rem;
+  }
+
+  .btn-principal {
+    padding: 0.75rem 1.5rem;
+    font-size: 0.95rem;
+    margin-top: 1.25rem;
+  }
+
+  section {
+    padding: 1.25rem 1rem;
+  }
+
+  .servicios, .sobre-nosotros, .contacto {
+    padding: 1.5rem 1.25rem;
+    border-radius: 12px;
+    box-shadow: 0 1px 6px rgba(0,0,0,0.05);
+  }
+
+  section h2 {
+    font-size: 1.35rem;
+  }
+
+  .sobre-nosotros p {
+    font-size: 0.95rem;
+    line-height: 1.7;
+  }
+
+  .tarjeta-section {
+    padding: 1.5rem 1rem;
+  }
+
+  .tarjeta-section h2 {
+    font-size: 1.25rem;
+  }
+
+  .subtitle {
+    font-size: 0.85rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .card-3d-container {
+    height: 340px;
+  }
+
+  .card-face {
+    padding: 1.2rem;
+  }
+
+  .logo-circle {
+    width: 50px;
+    height: 50px;
+    min-width: 50px;
+  }
+
+  .logo-letters {
+    font-size: 1.15rem;
+  }
+
+  .logo-psi {
+    font-size: 0.75rem;
+    right: -8px;
+  }
+
+  .card-name {
+    font-size: 1rem;
+    letter-spacing: 1px;
+  }
+
+  .card-profession {
+    font-size: 0.7rem;
+    letter-spacing: 1.5px;
+  }
+
+  .card-cip {
+    font-size: 0.65rem;
+  }
+
+  .card-quote {
+    font-size: 0.8rem;
+    padding-left: 0.6rem;
+  }
+
+  .card-flip-prompt {
+    font-size: 0.7rem;
+  }
+
+  .card-back {
+    padding: 1rem;
+  }
+
+  .card-back-grid {
+    grid-template-columns: 1fr;
+    gap: 0.8rem;
+  }
+
+  .contact-info {
+    font-size: 0.78rem;
+    gap: 0.35rem;
+  }
+
+  .qr-container {
+    margin: 0 auto;
+  }
+
+  #qrCodeCanvas canvas, #qrCodeCanvas img {
+    width: 80px !important;
+    height: 80px !important;
+  }
+
+  .card-footer-banner {
+    font-size: 0.6rem;
+    letter-spacing: 1px;
+  }
+
+  .card-controls {
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .btn-secondary {
+    width: 100%;
+    max-width: 280px;
+    justify-content: center;
+    padding: 0.7rem 1rem;
+  }
+
+  input, textarea {
+    padding: 0.75rem 0.85rem;
+    font-size: 0.95rem;
+  }
+
+  button[type="submit"] {
+    padding: 0.85rem;
+    font-size: 0.95rem;
+  }
+
+  .contacto > p {
+    font-size: 0.85rem;
+  }
+
+  footer {
+    padding: 1.25rem 1rem;
+    font-size: 0.8rem;
+  }
+}
+
+/* ============================================
+   RESPONSIVE: MOVILES PEQUENOS (max-width: 380px)
+   ============================================ */
+@media (max-width: 380px) {
+  header {
+    padding: 2rem 1rem 1.75rem;
+  }
+
+  header h1 {
+    font-size: 1.5rem;
+  }
+
+  header p {
+    font-size: 0.9rem;
+  }
+
+  .btn-principal {
+    padding: 0.65rem 1.2rem;
+    font-size: 0.85rem;
+  }
+
+  .servicios, .sobre-nosotros, .contacto {
+    padding: 1.25rem 1rem;
+    margin: 0.75rem auto;
+  }
+
+  section h2 {
+    font-size: 1.2rem;
+  }
+
+  .servicios li {
+    padding: 8px 10px;
+    font-size: 0.88rem;
+  }
+
+  .tarjeta-section {
+    padding: 1.25rem 0.75rem;
+  }
+
+  .card-3d-container {
+    height: 360px;
+  }
+
+  .card-face {
+    padding: 1rem;
+  }
+
+  .logo-circle {
+    width: 44px;
+    height: 44px;
+    min-width: 44px;
+  }
+
+  .logo-letters {
+    font-size: 1rem;
+  }
+
+  .card-name {
+    font-size: 0.88rem;
+    letter-spacing: 0.5px;
+  }
+
+  .card-profession {
+    font-size: 0.65rem;
+    letter-spacing: 1px;
+  }
+
+  .card-cip {
+    font-size: 0.6rem;
+  }
+
+  .card-quote {
+    font-size: 0.75rem;
+    line-height: 1.3;
+  }
+
+  .info-item {
+    font-size: 0.72rem;
+  }
+
+  .tagline {
+    font-size: 0.7rem;
+  }
+
+  .btn-secondary {
+    font-size: 0.8rem;
+    padding: 0.6rem 0.8rem;
+  }
+
+  label {
+    font-size: 0.85rem;
+  }
+
+  input, textarea {
+    padding: 0.7rem;
+    font-size: 0.9rem;
+  }
+}
+
+/* ============================================
+   RESPONSIVE: TABLETS landscape y desktops pequenos (min-width: 769px) 
+   ============================================ */
+@media (min-width: 769px) and (max-width: 1024px) {
+  header {
+    padding: 3.5rem 2rem 3rem;
+  }
+
+  header h1 {
+    font-size: 2.5rem;
+  }
+}
+
+/* ============================================
+   PRINT STYLES
+   ============================================ */
+@media print {
+  header, footer, .card-controls, .btn-principal {
+    background: none;
+    color: #333;
+  }
+
+  .card-3d-container {
+    perspective: none;
+  }
+
+  .card-3d {
+    transform: none !important;
+  }
+}

@@ -2,71 +2,99 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Psicólogos certificados en Panamá y Colón. Ofrecemos terapia individual, de pareja y familiar. Agenda tu cita presencial o virtual.">
-  <title>Tu Psicólogo de Confianza</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <meta name="description" content="Psicologos certificados en Panama y Colon. Ofrecemos terapia individual, de pareja y familiar. Agenda tu cita presencial o virtual.">
+  <meta name="theme-color" content="#3B7A75">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <title>Tu Psicologo de Confianza</title>
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-  <header>
-    <h1>Tu Psicólogo de Confianza</h1>
+
+  <!-- Navegacion -->
+  <nav class="site-nav" id="siteNav">
+    <div class="nav-container">
+      <a href="#" class="nav-brand">
+        <span class="nav-logo">ZB</span>
+        <span class="nav-brand-text">Zumaikira Bailey</span>
+      </a>
+      <button class="nav-toggle" id="navToggle" aria-label="Menu de navegacion">
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+      </button>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#inicio">Inicio</a></li>
+        <li><a href="#sobre-nosotros">Nosotros</a></li>
+        <li><a href="#tarjeta">Contacto</a></li>
+        <li><a href="#servicios">Servicios</a></li>
+        <li><a href="#contacto" class="nav-cta">Agendar Cita</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <header id="inicio">
+    <h1>Tu Psicologo de Confianza</h1>
     <p>Lo que importa es tu salud mental</p>
     <a href="#contacto" class="btn-principal">Agendar Cita</a>
   </header>
 
   <main>
-    <section class="sobre-nosotros">
-      <h2>¿Quiénes Somos?</h2>
-      <p>Somos un equipo de psicólogos certificados, comprometidos con el bienestar emocional y mental de nuestros pacientes en Panamá y Colón. Ofrecemos atención cálida, confidencial y profesional tanto presencial como virtual.</p>
+    <!-- Quienes Somos -->
+    <section class="sobre-nosotros" id="sobre-nosotros">
+      <h2>Quienes Somos?</h2>
+      <p>Somos un equipo de psicologos certificados, comprometidos con el bienestar emocional y mental de nuestros pacientes en Panama y Colon. Ofrecemos atencion calida, confidencial y profesional tanto presencial como virtual.</p>
     </section>
 
-    <!-- Sección de Tarjeta de Presentación 3D Interactiva con QR -->
-    <section class="tarjeta-section">
-      <h2>Tarjeta de Presentación Digital 3D</h2>
-      <p class="subtitle">Pasa el cursor o interactúa con la tarjeta para ver el efecto 3D y gira para ver el código QR de contacto.</p>
+    <!-- Tarjeta 3D -->
+    <section class="tarjeta-section" id="tarjeta">
+      <h2>Tarjeta de Presentacion Digital 3D</h2>
+      <p class="subtitle">Pasa el cursor o toca la tarjeta para ver el efecto 3D y gira para ver el codigo QR de contacto.</p>
       
       <div class="card-3d-container" id="cardContainer">
         <div class="card-3d" id="card3d">
-          <!-- Frente de la Tarjeta -->
+          <!-- Frente -->
           <div class="card-face card-front">
             <div class="card-border"></div>
             <div class="card-header-logo">
               <div class="logo-circle">
                 <span class="logo-letters">ZB</span>
-                <span class="logo-psi">Ψ</span>
+                <span class="logo-psi">Psi</span>
               </div>
               <div class="header-titles">
                 <h3 class="card-name">ZUMAIKIRA BAILEY</h3>
-                <p class="card-profession">PSICÓLOGA</p>
-                <p class="card-cip">C.I.P. 8362 • Ψ</p>
+                <p class="card-profession">PSICOLOGA</p>
+                <p class="card-cip">C.I.P. 8362</p>
               </div>
             </div>
             <div class="card-divider"></div>
             <div class="card-quote">
-              "Tu bienestar mental es tu mejor versión y yo estoy aquí para ayudarte en tu proceso."
+              "Tu bienestar mental es tu mejor version y yo estoy aqui para ayudarte en tu proceso."
             </div>
             <div class="card-flip-prompt">
-              <span class="rotate-icon">🔄</span> Haz clic para girar la tarjeta
+              Toca para girar la tarjeta
             </div>
           </div>
 
-          <!-- Reverso de la Tarjeta con Código QR -->
+          <!-- Reverso -->
           <div class="card-face card-back">
             <div class="card-back-grid">
               <div class="contact-info">
                 <div class="info-item">
-                  <span class="icon">📞</span>
+                  <span class="icon">Tel:</span>
                   <span>+507 6235-281</span>
                 </div>
                 <div class="info-item">
-                  <span class="icon">✉️</span>
+                  <span class="icon">Mail:</span>
                   <span>Zumaikirabailey98@gmail.com</span>
                 </div>
                 <div class="info-item">
-                  <span class="icon">📍</span>
+                  <span class="icon">Dir:</span>
                   <span>Atlantic Plaza, 1er piso, local 127, oficina #224</span>
                 </div>
-                <p class="tagline">Escucha • Comprende • Acompaña</p>
+                <p class="tagline">Escucha - Comprende - Acompana</p>
               </div>
               <div class="qr-container">
                 <div id="qrCodeCanvas"></div>
@@ -74,32 +102,34 @@
               </div>
             </div>
             <div class="card-footer-banner">
-              ATENCIÓN A NIÑOS, ADOLESCENTES Y ADULTOS
+              ATENCION A NINOS, ADOLESCENTES Y ADULTOS
             </div>
           </div>
         </div>
       </div>
 
       <div class="card-controls">
-        <button id="btnFlipCard" class="btn-secondary">🔄 Girar Tarjeta (3D)</button>
-        <button id="btnDownloadVCard" class="btn-secondary">📥 Descargar Contacto (vCard)</button>
-        <a id="btnWhatsapp" href="https://wa.me/5076235281" target="_blank" class="btn-secondary">💬 Abrir WhatsApp</a>
+        <button id="btnFlipCard" class="btn-secondary">Girar Tarjeta (3D)</button>
+        <button id="btnDownloadVCard" class="btn-secondary">Descargar Contacto (vCard)</button>
+        <a id="btnWhatsapp" href="https://wa.me/5076235281" target="_blank" class="btn-secondary">Abrir WhatsApp</a>
       </div>
     </section>
 
-    <section class="servicios">
+    <!-- Servicios -->
+    <section class="servicios" id="servicios">
       <h2>Servicios</h2>
       <ul>
         <li>Terapia individual (adultos y adolescentes)</li>
         <li>Terapia de pareja</li>
         <li>Asesoramiento familiar</li>
-        <li>Evaluaciones psicológicas</li>
+        <li>Evaluaciones psicologicas</li>
         <li>Charlas y talleres</li>
-        <li>Consultoría empresarial</li>
+        <li>Consultoria empresarial</li>
         <li>Consultas virtuales y presenciales</li>
       </ul>
     </section>
 
+    <!-- Contacto -->
     <section class="contacto" id="contacto">
       <h2>Agenda tu cita</h2>
       <form id="contactForm">
@@ -108,21 +138,21 @@
           <input type="text" id="nombre" name="nombre" placeholder="Tu nombre completo" required>
         </div>
         <div class="form-group">
-          <label for="email">Correo electrónico</label>
-          <input type="email" id="email" name="email" placeholder="Correo electrónico" required>
+          <label for="email">Correo electronico</label>
+          <input type="email" id="email" name="email" placeholder="Correo electronico" required>
         </div>
         <div class="form-group">
           <label for="mensaje">Mensaje o motivo de consulta</label>
-          <textarea id="mensaje" name="mensaje" placeholder="Cuéntanos brevemente tu situación o lo que necesitas" rows="4" required></textarea>
+          <textarea id="mensaje" name="mensaje" placeholder="Cuentanos brevemente tu situacion o lo que necesitas" rows="4" required></textarea>
         </div>
         <button type="submit">Enviar</button>
       </form>
-      <p>También puedes contactarnos por WhatsApp al <strong>+507 6235-281</strong> o escribirnos a <strong>Zumaikirabailey98@gmail.com</strong></p>
+      <p>Tambien puedes contactarnos por WhatsApp al <strong>+507 6235-281</strong> o escribirnos a <strong>Zumaikirabailey98@gmail.com</strong></p>
     </section>
   </main>
 
   <footer>
-    <p>&copy; 2025 Tu Psicólogo de Confianza - Todos los derechos reservados.</p>
+    <p>&copy; 2025 Tu Psicologo de Confianza - Todos los derechos reservados.</p>
   </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js"></script>

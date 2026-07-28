@@ -1,4 +1,30 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // --- Mobile Navigation ---
+    const navToggle = document.getElementById('navToggle');
+    const navLinks = document.getElementById('navLinks');
+
+    if (navToggle && navLinks) {
+        navToggle.addEventListener('click', () => {
+            navToggle.classList.toggle('active');
+            navLinks.classList.toggle('open');
+        });
+
+        navLinks.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                navToggle.classList.remove('active');
+                navLinks.classList.remove('open');
+            });
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!navToggle.contains(e.target) && !navLinks.contains(e.target)) {
+                navToggle.classList.remove('active');
+                navLinks.classList.remove('open');
+            }
+        });
+    }
+
+    // --- Contact Form ---
     const contactForm = document.getElementById('contactForm');
 
     if (contactForm) {
@@ -26,7 +52,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const result = await response.json();
 
                 if (response.ok) {
-                    alert('¡Mensaje enviado con éxito! Nos pondremos en contacto pronto.');
+                    alert('Mensaje enviado con exito! Nos pondremos en contacto pronto.');
                     contactForm.reset();
                 } else {
                     alert('Error: ' + (result.error || 'No se pudo enviar el mensaje.'));
@@ -41,67 +67,69 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // --- Lógica de Tarjeta 3D y Generador QR ---
+    // --- 3D Card & QR ---
     const card3d = document.getElementById('card3d');
     const cardContainer = document.getElementById('cardContainer');
     const btnFlipCard = document.getElementById('btnFlipCard');
     const btnDownloadVCard = document.getElementById('btnDownloadVCard');
     const qrContainer = document.getElementById('qrCodeCanvas');
 
-    // 1. Datos vCard para Zumaikira Bailey
+    // vCard data
     const vCardData = `BEGIN:VCARD
 VERSION:3.0
 N:Bailey;Zumaikira;;;
 FN:Zumaikira Bailey
-ORG:Consultoría Psicológica
-TITLE:Psicóloga (C.I.P. 8362)
+ORG:Consultoria Psicologica
+TITLE:Psicologa (C.I.P. 8362)
 TEL;TYPE=CELL,VOICE:+5076235281
 EMAIL;TYPE=INTERNET:Zumaikirabailey98@gmail.com
-ADR;TYPE=WORK:;;Atlantic plaza, primer piso local 127, oficina #224;Panamá;;;
-NOTE:Tu bienestar mental es tu mejor versión. Atención a niños, adolescentes y adultos.
+ADR;TYPE=WORK:;;Atlantic plaza, primer piso local 127, oficina #224;Panama;;;
+NOTE:Tu bienestar mental es tu mejor version. Atencion a ninos, adolescentes y adultos.
 END:VCARD`;
 
-    // 2. Generar el Código QR usando qrcode-generator
+    // Generate QR
     if (qrContainer && typeof qrcode !== 'undefined') {
         try {
-            const typeNumber = 0; // Auto detect
+            const typeNumber = 0;
             const errorCorrectionLevel = 'M';
             const qr = qrcode(typeNumber, errorCorrectionLevel);
             qr.addData(vCardData);
             qr.make();
-            qrContainer.innerHTML = qr.createImgTag(4, 8); // Cell size 4, margin 8
+            qrContainer.innerHTML = qr.createImgTag(4, 8);
         } catch (err) {
-            console.error("Error al generar código QR:", err);
+            console.error("Error al generar codigo QR:", err);
         }
     }
 
-    // 3. Efecto 3D Tilt con el Mouse
+    // 3D Tilt Effect
     if (cardContainer && card3d) {
-        cardContainer.addEventListener('mousemove', (e) => {
-            const rect = cardContainer.getBoundingClientRect();
-            const x = e.clientX - rect.left - rect.width / 2;
-            const y = e.clientY - rect.top - rect.height / 2;
-            
-            // Si no está volteada, inclinación normal. Si está volteada, ajustar Y
-            const isFlipped = card3d.classList.contains('flipped');
-            const rotateY = isFlipped ? 180 + (x / 15) : (x / 15);
-            const rotateX = -y / 15;
+        const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
 
-            card3d.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
-        });
+        if (!isTouchDevice) {
+            cardContainer.addEventListener('mousemove', (e) => {
+                const rect = cardContainer.getBoundingClientRect();
+                const x = e.clientX - rect.left - rect.width / 2;
+                const y = e.clientY - rect.top - rect.height / 2;
+                
+                const isFlipped = card3d.classList.contains('flipped');
+                const rotateY = isFlipped ? 180 + (x / 15) : (x / 15);
+                const rotateX = -y / 15;
 
-        cardContainer.addEventListener('mouseleave', () => {
-            const isFlipped = card3d.classList.contains('flipped');
-            card3d.style.transform = isFlipped ? 'rotateY(180deg)' : 'rotateY(0deg)';
-        });
+                card3d.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+            });
 
-        // 4. Giro al hacer clic en la tarjeta
+            cardContainer.addEventListener('mouseleave', () => {
+                const isFlipped = card3d.classList.contains('flipped');
+                card3d.style.transform = isFlipped ? 'rotateY(180deg)' : 'rotateY(0deg)';
+            });
+        }
+
         cardContainer.addEventListener('click', () => {
             card3d.classList.toggle('flipped');
         });
     }
 
-    // Botón manual de girar
+    // Flip button
     if (btnFlipCard && card3d) {
         btnFlipCard.addEventListener('click', (e) => {
             e.stopPropagation();
@@ -109,7 +137,7 @@ END:VCARD`;
         });
     }
 
-    // 5. Descargar vCard (.vcf)
+    // Download vCard
     if (btnDownloadVCard) {
         btnDownloadVCard.addEventListener('click', (e) => {
             e.stopPropagation();
@@ -122,5 +150,19 @@ END:VCARD`;
             document.body.removeChild(link);
         });
     }
-});
 
+    // Smooth scroll offset for sticky nav
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', (e) => {
+            const targetId = anchor.getAttribute('href');
+            if (targetId === '#') return;
+            const target = document.querySelector(targetId);
+            if (target) {
+                e.preventDefault();
+                const navHeight = document.querySelector('.site-nav')?.offsetHeight || 56;
+                const targetPos = target.getBoundingClientRect().top + window.pageYOffset - navHeight;
+                window.scrollTo({ top: targetPos, behavior: 'smooth' });
+            }
+        });
+    });
+});
