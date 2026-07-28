@@ -3,149 +3,452 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Panel Admin - Tu Psicólogo de Confianza</title>
-    <!-- Usar admin.css en lugar de style.css para el dashboard -->
+    <title>Panel Admin - Consultorio Psicologico</title>
     <link rel="stylesheet" href="/admin/css/admin.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="dashboard-container">
-        <!-- Sidebar Menu -->
-        <aside class="sidebar">
-            <div class="logo">
-                <h2>Panel Admin</h2>
-                <p>Tu Psicólogo</p>
+    <div class="dashboard-layout">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-brand">
+                    <div class="brand-icon">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/>
+                            <path d="M8 14s1.5 2 4 2 4-2 4-2"/>
+                            <line x1="9" y1="9" x2="9.01" y2="9"/>
+                            <line x1="15" y1="9" x2="15.01" y2="9"/>
+                        </svg>
+                    </div>
+                    <div class="brand-text">
+                        <span class="brand-name">Panel Admin</span>
+                        <span class="brand-sub">Psicologia</span>
+                    </div>
+                </div>
+                <button class="sidebar-toggle" id="sidebarToggle" aria-label="Toggle sidebar">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/>
+                    </svg>
+                </button>
             </div>
-            <nav>
+
+            <nav class="sidebar-nav">
                 <ul>
-                    <li><a href="#" id="navMessages" class="active">📝 Gestor de Citas</a></li>
-                    <li><a href="#" id="navUsers">👥 Gestor de Usuarios</a></li>
-                    <li><a href="../index.html" target="_blank">🌐 Ver Sitio Web</a></li>
+                    <li>
+                        <a href="#" id="navDashboard" class="nav-link active" data-panel="dashboard">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/>
+                            </svg>
+                            <span>Panel Principal</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" id="navMessages" class="nav-link" data-panel="messages">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
+                            </svg>
+                            <span>Gestor de Citas</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" id="navUsers" class="nav-link" data-panel="users">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                            </svg>
+                            <span>Gestor de Usuarios</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="../index.html" target="_blank" class="nav-link">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+                            </svg>
+                            <span>Ver Sitio Web</span>
+                        </a>
+                    </li>
                 </ul>
             </nav>
+
+            <div class="sidebar-footer">
+                <div class="sidebar-user" id="sidebarUserProfile">
+                    <div class="sidebar-avatar" id="sidebarAvatar">A</div>
+                    <div class="sidebar-user-info">
+                        <span class="sidebar-user-name" id="sidebarUserName">Administrador</span>
+                        <span class="sidebar-user-role" id="sidebarUserRole">Admin</span>
+                    </div>
+                </div>
+            </div>
         </aside>
+
+        <!-- Mobile overlay -->
+        <div class="sidebar-overlay" id="sidebarOverlay"></div>
 
         <!-- Main Content -->
         <main class="main-content">
+            <!-- Topbar -->
             <header class="topbar">
-                <h1 id="pageTitle">Gestión de Citas y Agendas</h1>
-                <div class="user-info">
-                    <span id="adminUsername" class="greeting">Hola, Administrador</span>
-                    <button id="logoutBtn" class="btn btn-danger">Salir</button>
-                    <div class="avatar">A</div>
+                <div class="topbar-left">
+                    <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Menu">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/>
+                        </svg>
+                    </button>
+                    <h1 id="pageTitle" class="topbar-title">Panel Principal</h1>
+                </div>
+                <div class="topbar-right">
+                    <div class="user-menu" id="userMenu">
+                        <button class="user-menu-trigger" id="userMenuTrigger">
+                            <div class="avatar-sm" id="topbarAvatar">A</div>
+                            <span id="adminUsername" class="topbar-username">Administrador</span>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="6 9 12 15 18 9"/>
+                            </svg>
+                        </button>
+                        <div class="user-dropdown" id="userDropdown">
+                            <a href="#" id="myAccountLink" class="dropdown-item">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
+                                </svg>
+                                Mi Cuenta
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <a href="#" id="logoutBtn" class="dropdown-item dropdown-item-danger">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/>
+                                </svg>
+                                Cerrar Sesion
+                            </a>
+                        </div>
+                    </div>
                 </div>
             </header>
 
-            <div class="content-wrapper">
-                <section class="content-panel active" id="panelMessages">
-                    <div class="panel-header">
-                        <h2>Últimas Solicitudes</h2>
-                        <button id="refreshBtn" class="btn btn-outline">↻ Refrescar Mensajes</button>
+            <!-- Content Area -->
+            <div class="content-area">
+                <!-- Dashboard Panel -->
+                <section class="content-panel active" id="panelDashboard">
+                    <div class="stats-grid" id="statsGrid">
+                        <div class="stat-card stat-card-pending">
+                            <div class="stat-icon">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+                                </svg>
+                            </div>
+                            <div class="stat-content">
+                                <span class="stat-value" id="statPending">0</span>
+                                <span class="stat-label">Citas Pendientes</span>
+                            </div>
+                        </div>
+                        <div class="stat-card stat-card-upcoming">
+                            <div class="stat-icon">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
+                                </svg>
+                            </div>
+                            <div class="stat-content">
+                                <span class="stat-value" id="statUpcoming">0</span>
+                                <span class="stat-label">Proximas Sesiones</span>
+                            </div>
+                        </div>
+                        <div class="stat-card stat-card-total">
+                            <div class="stat-icon">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                                </svg>
+                            </div>
+                            <div class="stat-content">
+                                <span class="stat-value" id="statPatients">0</span>
+                                <span class="stat-label">Total Pacientes</span>
+                            </div>
+                        </div>
+                        <div class="stat-card stat-card-scheduled">
+                            <div class="stat-icon">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/>
+                                </svg>
+                            </div>
+                            <div class="stat-content">
+                                <span class="stat-value" id="statScheduled">0</span>
+                                <span class="stat-label">Agendadas</span>
+                            </div>
+                        </div>
                     </div>
-                    
-                    <div class="table-container">
-                        <table id="appointmentsTable">
-                            <thead>
-                                <tr>
-                                    <th>Fecha Requerida</th>
-                                    <th>Paciente / Cliente</th>
-                                    <th>Contacto</th>
-                                    <th>Motivo de Consulta</th>
-                                    <th>Estado</th>
-                                    <th>Acciones</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <!-- Las citas se cargarán aquí -->
-                            </tbody>
-                        </table>
+
+                    <div class="recent-section">
+                        <div class="section-header">
+                            <h2>Actividad Reciente</h2>
+                            <button class="btn btn-ghost btn-sm" id="goToMessages">
+                                Ver todas las citas
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <polyline points="9 18 15 12 9 6"/>
+                                </svg>
+                            </button>
+                        </div>
+                        <div class="recent-list" id="recentActivity">
+                            <div class="empty-state">
+                                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
+                                </svg>
+                                <p>No hay actividad reciente</p>
+                            </div>
+                        </div>
                     </div>
                 </section>
 
-                <section class="content-panel" id="panelUsers">
-                    <div class="panel-header">
-                        <h2>Usuarios del Sistema</h2>
-                        <div style="display: flex; gap: 10px;">
-                            <button id="refreshUsersBtn" class="btn btn-outline">↻ Refrescar</button>
-                            <button id="newUserBtn" class="btn btn-primary">+ Nuevo Usuario</button>
+                <!-- Appointments Panel -->
+                <section class="content-panel" id="panelMessages">
+                    <div class="panel-toolbar">
+                        <div class="toolbar-left">
+                            <div class="search-box">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                                </svg>
+                                <input type="text" id="searchInput" placeholder="Buscar por nombre, email o motivo..." autocomplete="off">
+                            </div>
+                            <div class="filter-group">
+                                <select id="statusFilter" class="filter-select">
+                                    <option value="all">Todos</option>
+                                    <option value="Pendiente">Pendientes</option>
+                                    <option value="Agendada">Agendadas</option>
+                                    <option value="Cancelada">Canceladas</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="toolbar-right">
+                            <button id="togglePIIBtn" class="btn btn-outline btn-sm" title="Mostrar/ocultar datos sensibles">
+                                <svg class="icon-eye" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>
+                                </svg>
+                                <svg class="icon-eye-off" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none;">
+                                    <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/>
+                                    <line x1="1" y1="1" x2="23" y2="23"/>
+                                </svg>
+                                <span class="btn-label">Datos Sensibles</span>
+                            </button>
+                            <button id="refreshBtn" class="btn btn-outline btn-sm">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/>
+                                </svg>
+                                Refrescar
+                            </button>
                         </div>
                     </div>
-                    
-                    <div class="table-container">
-                        <table id="usersTable">
-                            <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Nombre de Usuario</th>
-                                    <th>Acciones</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <!-- Los usuarios se cargarán aquí -->
-                            </tbody>
-                        </table>
+
+                    <div class="appointments-list" id="appointmentsList">
+                        <div class="loading-state">
+                            <div class="spinner"></div>
+                            <p>Cargando citas...</p>
+                        </div>
+                    </div>
+
+                    <div class="pagination" id="pagination"></div>
+                </section>
+
+                <!-- Users Panel -->
+                <section class="content-panel" id="panelUsers">
+                    <div class="panel-toolbar">
+                        <div class="toolbar-left">
+                            <div class="search-box">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                                </svg>
+                                <input type="text" id="searchUsersInput" placeholder="Buscar usuario..." autocomplete="off">
+                            </div>
+                        </div>
+                        <div class="toolbar-right">
+                            <button id="refreshUsersBtn" class="btn btn-outline btn-sm">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/>
+                                </svg>
+                                Refrescar
+                            </button>
+                            <button id="newUserBtn" class="btn btn-primary btn-sm">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+                                </svg>
+                                Nuevo Usuario
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="users-list" id="usersList">
+                        <div class="loading-state">
+                            <div class="spinner"></div>
+                            <p>Cargando usuarios...</p>
+                        </div>
                     </div>
                 </section>
             </div>
         </main>
     </div>
 
-    <!-- Modal for viewing full message -->
-    <div id="messageModal" class="modal">
-        <div class="modal-content">
-            <span class="close-btn" id="closeMsgModal">&times;</span>
-            <h2>Mensaje del Paciente</h2>
-            <p id="modalMessageText"></p>
+    <!-- Modal: View Message -->
+    <div id="messageModal" class="modal-overlay">
+        <div class="modal">
+            <div class="modal-header">
+                <h2>Mensaje del Paciente</h2>
+                <button class="modal-close" id="closeMsgModal" aria-label="Cerrar">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="message-sender" id="modalMessageSender"></div>
+                <p id="modalMessageText"></p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline btn-sm" onclick="document.getElementById('messageModal').classList.remove('active')">Cerrar</button>
+            </div>
         </div>
     </div>
 
-    <!-- Modal for scheduling appointment -->
-    <div id="scheduleModal" class="modal">
-        <div class="modal-content" style="max-width: 450px;">
-            <span class="close-btn" id="closeScheduleModal">&times;</span>
-            <h2>Agendar Cita</h2>
-            <p style="margin-bottom: 20px; font-size: 0.9rem; color: var(--text-muted); background: transparent; border: none; padding: 0;">Se enviará una invitación automática al paciente por correo electrónico.</p>
-            <form id="scheduleForm">
-                <input type="hidden" id="scheduleMsgId" name="msg_id">
-                <div class="form-group" style="display: flex; gap: 15px;">
-                    <div style="flex: 1;">
-                        <label for="fechaCita">Fecha</label>
-                        <input type="date" id="fechaCita" name="fecha_cita" required style="width: 100%; padding: 10px; border: 1px solid var(--border-color); border-radius: var(--radius-md);">
+    <!-- Modal: Schedule Appointment -->
+    <div id="scheduleModal" class="modal-overlay">
+        <div class="modal modal-lg">
+            <div class="modal-header">
+                <h2>Agendar Cita</h2>
+                <button class="modal-close" id="closeScheduleModal" aria-label="Cerrar">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p class="modal-description">Se enviara una invitacion automatica al paciente por correo electronico.</p>
+                <form id="scheduleForm">
+                    <input type="hidden" id="scheduleMsgId" name="msg_id">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="fechaCita">Fecha</label>
+                            <input type="date" id="fechaCita" name="fecha_cita" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="horaCita">Hora</label>
+                            <input type="time" id="horaCita" name="hora_cita" required>
+                        </div>
                     </div>
-                    <div style="flex: 1;">
-                        <label for="horaCita">Hora</label>
-                        <input type="time" id="horaCita" name="hora_cita" required style="width: 100%; padding: 10px; border: 1px solid var(--border-color); border-radius: var(--radius-md);">
+                    <div class="form-group">
+                        <label for="modalidadCita">Modalidad</label>
+                        <select id="modalidadCita" name="modalidad" required>
+                            <option value="Virtual">Virtual (Zoom/Meet)</option>
+                            <option value="Presencial">Presencial (Consultorio)</option>
+                        </select>
                     </div>
-                </div>
-                <div class="form-group">
-                    <label for="modalidadCita">Modalidad</label>
-                    <select id="modalidadCita" name="modalidad" required style="width: 100%; padding: 10px; border: 1px solid var(--border-color); border-radius: var(--radius-md); background-color: #F9FAFB;">
-                        <option value="Virtual">💻 Virtual (Zoom/Meet)</option>
-                        <option value="Presencial">🏢 Presencial (Consultorio)</option>
-                    </select>
-                </div>
-                <button type="submit" id="btnSubmitSchedule" class="btn btn-primary" style="width: 100%; padding: 12px; font-weight: bold; margin-top: 10px;">📅 Agendar y Enviar Correo</button>
-            </form>
+                    <div class="form-group">
+                        <label for="notasCita">Notas Privadas</label>
+                        <textarea id="notasCita" name="notas" rows="3" placeholder="Notas internas sobre el paciente..."></textarea>
+                    </div>
+                    <div class="modal-actions">
+                        <button type="button" class="btn btn-outline" onclick="document.getElementById('scheduleModal').classList.remove('active')">Cancelar</button>
+                        <button type="submit" id="btnSubmitSchedule" class="btn btn-primary">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
+                            </svg>
+                            Agendar y Enviar Correo
+                        </button>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
 
-    <!-- Modal for creating new user -->
-    <div id="userModal" class="modal">
-        <div class="modal-content" style="max-width: 400px;">
-            <span class="close-btn" id="closeUserModal">&times;</span>
-            <h2>Crear Nuevo Usuario</h2>
-            <form id="createUserForm" style="margin-top: 20px;">
-                <div class="form-group">
-                    <label for="newUsername">Usuario</label>
-                    <input type="text" id="newUsername" name="username" placeholder="pj: admin2" required>
-                </div>
-                <div class="form-group">
-                    <label for="newPassword">Contraseña</label>
-                    <input type="password" id="newPassword" name="password" placeholder="••••••••" required>
-                </div>
-                <button type="submit" class="btn btn-primary" style="width: 100%; padding: 12px; font-weight: bold;">Crear Usuario</button>
-            </form>
+    <!-- Modal: Create User -->
+    <div id="userModal" class="modal-overlay">
+        <div class="modal">
+            <div class="modal-header">
+                <h2>Crear Nuevo Usuario</h2>
+                <button class="modal-close" id="closeUserModal" aria-label="Cerrar">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="createUserForm">
+                    <div class="form-group">
+                        <label for="newFullName">Nombre Completo</label>
+                        <input type="text" id="newFullName" name="full_name" placeholder="Ej: Maria Perez">
+                    </div>
+                    <div class="form-group">
+                        <label for="newUsername">Usuario</label>
+                        <input type="text" id="newUsername" name="username" placeholder="Ej: admin2" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="newPassword">Contrasena (min. 8 caracteres)</label>
+                        <input type="password" id="newPassword" name="password" placeholder="Minimo 8 caracteres" required minlength="8">
+                    </div>
+                    <div class="form-group">
+                        <label for="newRole">Rol</label>
+                        <select id="newRole" name="role">
+                            <option value="viewer">Visualizador</option>
+                            <option value="admin">Administrador</option>
+                        </select>
+                    </div>
+                    <div class="modal-actions">
+                        <button type="button" class="btn btn-outline" onclick="document.getElementById('userModal').classList.remove('active')">Cancelar</button>
+                        <button type="submit" class="btn btn-primary">Crear Usuario</button>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
+
+    <!-- Modal: My Account -->
+    <div id="accountModal" class="modal-overlay">
+        <div class="modal modal-lg">
+            <div class="modal-header">
+                <h2>Mi Cuenta</h2>
+                <button class="modal-close" id="closeAccountModal" aria-label="Cerrar">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="account-sections">
+                    <div class="account-section">
+                        <h3>Informacion Personal</h3>
+                        <form id="profileForm">
+                            <div class="form-group">
+                                <label for="profileFullName">Nombre Completo</label>
+                                <input type="text" id="profileFullName" name="full_name">
+                            </div>
+                            <div class="form-group">
+                                <label for="profileEmail">Correo Electronico</label>
+                                <input type="email" id="profileEmail" name="email">
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-sm">Guardar Cambios</button>
+                        </form>
+                    </div>
+                    <div class="account-section">
+                        <h3>Cambiar Contrasena</h3>
+                        <form id="passwordForm">
+                            <div class="form-group">
+                                <label for="currentPassword">Contrasena Actual</label>
+                                <input type="password" id="currentPassword" name="current_password" placeholder="Ingresa tu contrasena actual" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="newPasswordInput">Nueva Contrasena</label>
+                                <input type="password" id="newPasswordInput" name="new_password" placeholder="Minimo 8 caracteres" required minlength="8">
+                            </div>
+                            <div class="form-group">
+                                <label for="confirmPassword">Confirmar Nueva Contrasena</label>
+                                <input type="password" id="confirmPassword" placeholder="Repite tu nueva contrasena" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-sm">Actualizar Contrasena</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Container -->
+    <div class="toast-container" id="toastContainer"></div>
 
     <script src="/admin/js/script.js"></script>
 </body>
