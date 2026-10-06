@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, Arial, sans-serif;
+      background-color: #f7f5f0;
+      margin: 0;
+      padding: 20px;
+      color: #333333;
+    }
+    .email-container {
+      max-width: 600px;
+      margin: 0 auto;
+      background: #ffffff;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid #e2ded4;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    }
+    .email-header {
+      background: linear-gradient(135deg, #1e3a5f, #2563eb);
+      color: #ffffff;
+      padding: 32px 24px;
+      text-align: center;
+    }
+    .email-header h1 {
+      margin: 0;
+      font-size: 24px;
+      letter-spacing: 1px;
+      font-weight: 700;
+    }
+    .email-header p {
+      margin: 6px 0 0 0;
+      font-size: 13px;
+      color: #93c5fd;
+      letter-spacing: 2px;
+      font-weight: 600;
+    }
+    .email-body {
+      padding: 30px 25px;
+      line-height: 1.6;
+    }
+    .email-body h2 {
+      color: #1e3a5f;
+      margin-top: 0;
+      font-size: 20px;
+    }
+    .appointment-card {
+      background-color: #f0f7ff;
+      border-left: 4px solid #2563eb;
+      border-radius: 8px;
+      padding: 20px;
+      margin: 25px 0;
+      border: 1px solid #dbeafe;
+    }
+    .appointment-item {
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px;
+      font-size: 15px;
+      color: #1e3a5f;
+    }
+    .appointment-item:last-child {
+      margin-bottom: 0;
+    }
+    .appointment-item strong {
+      width: 140px;
+      color: #333333;
+      flex-shrink: 0;
+    }
+    .quote-box {
+      font-style: italic;
+      color: #2563eb;
+      background: #f8fafc;
+      padding: 12px 16px;
+      border-radius: 6px;
+      border-left: 3px solid #60a5fa;
+      margin: 20px 0;
+    }
+    .contact-note {
+      font-size: 14px;
+      color: #4b5563;
+    }
+    .email-footer {
+      background-color: #f8fafc;
+      padding: 20px;
+      text-align: center;
+      font-size: 13px;
+      color: #64748b;
+      border-top: 1px solid #e2e8f0;
+    }
+  </style>
+</head>
+<body>
+  <div class="email-container">
+    <div class="email-header">
+      <h1>{{ clinic_name }}</h1>
+      <p>{{ clinic_title }}</p>
+    </div>
+    <div class="email-body">
+      <h2>Hola, {{ patient_name }}!</h2>
+      <p>Nos complace confirmarte que tu cita ha sido agendada con exito.</p>
+      
+      <div class="appointment-card">
+        <div class="appointment-item">
+          <strong>Fecha y Hora:</strong> <span>{{ appointment_date }}</span>
+        </div>
+        <div class="appointment-item">
+          <strong>Modalidad:</strong> <span>{{ modality }}</span>
+        </div>
+        <div class="appointment-item">
+          <strong>Ubicacion:</strong> <span>{{ clinic_address }}</span>
+        </div>
+      </div>
+
+      <div class="quote-box">
+        "Tu bienestar mental es tu mejor version y estoy aqui para ayudarte en tu proceso."
+      </div>
+
+      <p class="contact-note">
+        Si necesitas reprogramar o tienes alguna duda previa a la consulta, puedes comunicarte al <strong>{{ clinic_phone }}</strong>.
+      </p>
+    </div>
+    <div class="email-footer">
+      <p style="margin: 0; font-weight: bold; color: #1e3a5f;">Escucha - Comprende - Acompaña</p>
+      <p style="margin: 5px 0 0 0; font-size: 12px; color: #888;">Atencion a Niños, Adolescentes y Adultos</p>
+    </div>
+  </div>
+</body>
+</html>
