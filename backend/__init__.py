@@ -1,4 +1,6 @@
 from pathlib import Path
+import sqlite3
+from uuid import uuid4
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 from .config import get_config
@@ -25,6 +27,24 @@ def create_app(config_class=None):
         config_class = get_config()
     app.config.from_object(config_class)
 
+    if app.config.get('IS_PRODUCTION'):
+        secret_key = app.config.get('SECRET_KEY', '')
+        if len(secret_key) < 32 or secret_key == 'psicologo_secret_key_12345':
+            raise RuntimeError(
+                'En produccion, SECRET_KEY debe tener al menos 32 caracteres aleatorios.'
+            )
+        if not app.config.get('ADMIN_USERNAME') or len(app.config.get('ADMIN_PASSWORD', '')) < 12:
+            raise RuntimeError(
+                'En produccion, define ADMIN_USERNAME y un ADMIN_PASSWORD de al menos 12 caracteres.'
+            )
+
+    if app.config.get('DB_PATH') == ':memory:':
+        database_uri = f'file:consultoria_{uuid4().hex}?mode=memory&cache=shared'
+        app.config['DB_PATH'] = database_uri
+        app.extensions['database_anchor'] = sqlite3.connect(
+            database_uri, uri=True, check_same_thread=False
+        )
+
     # Enable CORS
     CORS(app)
 
@@ -33,7 +53,11 @@ def create_app(config_class=None):
 
     # Initialize Database Schema & Seed default records
     with app.app_context():
-        init_db(app.config.get('DB_PATH'))
+        init_db(
+            app.config.get('DB_PATH'),
+            admin_username=app.config['ADMIN_USERNAME'],
+            admin_password=app.config['ADMIN_PASSWORD']
+        )
 
     # Register all Blueprints
     register_routes(app)

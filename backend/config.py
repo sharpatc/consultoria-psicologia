@@ -16,20 +16,32 @@ class Config:
     SECRET_KEY = os.environ.get('SECRET_KEY', 'psicologo_secret_key_12345')
     BASE_DIR = BASE_DIR
     DB_PATH = os.environ.get('DB_PATH', str(BASE_DIR / 'database.sqlite'))
+    ADMIN_USERNAME = os.environ.get('ADMIN_USERNAME', 'admin')
+    ADMIN_PASSWORD = os.environ.get('ADMIN_PASSWORD', 'admin123')
+    IS_PRODUCTION = False
 
     # Security settings
     SESSION_COOKIE_HTTPONLY = True
     SESSION_COOKIE_SAMESITE = 'Lax'
+    SESSION_COOKIE_SECURE = False
     
     # Email / SMTP configuration
     EMAIL_USER = os.environ.get('EMAIL_USER', '')
     EMAIL_PASS = os.environ.get('EMAIL_PASS', '')
     SMTP_HOST = os.environ.get('SMTP_HOST', 'smtp.gmail.com')
     SMTP_PORT = int(os.environ.get('SMTP_PORT', 587))
+    TIMEZONE = os.environ.get('TIMEZONE', 'America/Panama')
+    APPOINTMENT_REMINDER_HOUR = int(os.environ.get('APPOINTMENT_REMINDER_HOUR', 8))
+    APPOINTMENT_REMINDER_MAX_ATTEMPTS = int(
+        os.environ.get('APPOINTMENT_REMINDER_MAX_ATTEMPTS', 4)
+    )
+    APPOINTMENT_REMINDER_RETRY_MINUTES = int(
+        os.environ.get('APPOINTMENT_REMINDER_RETRY_MINUTES', 15)
+    )
     
     # Professional & Clinic Details
-    CLINIC_NAME = os.environ.get('CLINIC_NAME', 'Zumaikira Bailey Psicologa')
-    CLINIC_TITLE = os.environ.get('CLINIC_TITLE', 'PSICOLOGA - C.I.P. 8362')
+    CLINIC_NAME = os.environ.get('CLINIC_NAME', 'PsicoEmocional')
+    CLINIC_TITLE = os.environ.get('CLINIC_TITLE', 'Psicologia y bienestar emocional')
     CLINIC_PHONE = os.environ.get('CLINIC_PHONE', '+507 6235-281')
     CLINIC_EMAIL = os.environ.get('CLINIC_EMAIL', 'Zumaikirabailey98@gmail.com')
     CLINIC_ADDRESS = os.environ.get('CLINIC_ADDRESS', 'Atlantic Plaza, 1er piso, local 127, oficina #224')
@@ -43,8 +55,8 @@ class DevelopmentConfig(Config):
 class ProductionConfig(Config):
     """Production configuration."""
     DEBUG = False
-    # If in production and secret key is default, warn or require strong key
-    SESSION_COOKIE_SECURE = os.environ.get('SESSION_COOKIE_SECURE', 'false').lower() == 'true'
+    IS_PRODUCTION = True
+    SESSION_COOKIE_SECURE = os.environ.get('SESSION_COOKIE_SECURE', 'true').lower() == 'true'
 
 
 class TestingConfig(Config):
@@ -52,6 +64,8 @@ class TestingConfig(Config):
     TESTING = True
     DEBUG = True
     DB_PATH = ':memory:'
+    ADMIN_USERNAME = 'admin'
+    ADMIN_PASSWORD = 'admin123'
 
 
 config_by_name = {

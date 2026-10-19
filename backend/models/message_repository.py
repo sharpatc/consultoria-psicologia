@@ -39,10 +39,53 @@ class MessageRepository:
         conn = get_db()
         conn.execute('''
             UPDATE messages
-            SET estado = 'Agendada', fecha_cita = ?, modalidad = ?, notas_privadas = ?
+            SET estado = 'Agendada', fecha_cita = ?, modalidad = ?, notas_privadas = ?,
+                recordatorio_enviado_at = NULL, recordatorio_intentos = 0,
+                recordatorio_ultimo_intento_at = NULL
             WHERE id = ?
         ''', (fecha_cita, modalidad, notas_privadas or '', msg_id))
         conn.commit()
+
+    @staticmethod
+    def get_reminder_candidates(max_attempts=4):
+        rows = get_db().execute('''
+            SELECT id, nombre, email, fecha_cita, modalidad
+            FROM messages
+            WHERE estado = 'Agendada'
+                AND recordatorio_enviado_at IS NULL
+                AND recordatorio_intentos < ?
+            ORDER BY fecha_cita, id
+        ''', (max_attempts,)).fetchall()
+        return [dict(row) for row in rows]
+
+    @staticmethod
+    def claim_reminder(message_id, attempted_at, retry_before, max_attempts=4):
+        conn = get_db()
+        cursor = conn.execute('''
+            UPDATE messages
+            SET recordatorio_intentos = recordatorio_intentos + 1,
+                recordatorio_ultimo_intento_at = ?
+            WHERE id = ?
+                AND estado = 'Agendada'
+                AND recordatorio_enviado_at IS NULL
+                AND recordatorio_intentos < ?
+                AND (
+                    recordatorio_ultimo_intento_at IS NULL
+                    OR julianday(recordatorio_ultimo_intento_at) <= julianday(?)
+                )
+        ''', (attempted_at, message_id, max_attempts, retry_before))
+        conn.commit()
+        return cursor.rowcount == 1
+
+    @staticmethod
+    def mark_reminder_sent(message_id, sent_at):
+        conn = get_db()
+        cursor = conn.execute('''
+            UPDATE messages SET recordatorio_enviado_at = ?
+            WHERE id = ? AND estado = 'Agendada' AND recordatorio_enviado_at IS NULL
+        ''', (sent_at, message_id))
+        conn.commit()
+        return cursor.rowcount == 1
 
     @staticmethod
     def cancel(msg_id):

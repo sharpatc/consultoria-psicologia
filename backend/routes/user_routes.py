@@ -8,7 +8,7 @@ from ..services.auth_service import AuthService
 user_bp = Blueprint('user', __name__)
 
 @user_bp.route('/api/profile', methods=['PUT'])
-@login_required
+@admin_required
 def update_profile():
     data = request.get_json(silent=True) or {}
     full_name = sanitize_input(data.get('full_name', ''), 100)
@@ -31,7 +31,7 @@ def update_profile():
         return jsonify({'error': str(e)}), 500
 
 @user_bp.route('/api/profile/password', methods=['PUT'])
-@login_required
+@admin_required
 def change_password():
     data = request.get_json(silent=True) or {}
     current_password = data.get('current_password', '')
@@ -55,7 +55,7 @@ def change_password():
         return jsonify({'error': str(e)}), 500
 
 @user_bp.route('/api/users', methods=['GET'])
-@login_required
+@admin_required
 def get_users():
     users = UserRepository.get_all()
     return jsonify(users), 200

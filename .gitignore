@@ -20,6 +20,9 @@ ENV/
 *.sqlite-wal
 *.sqlite-shm
 
+backups/
+data/
+
 # IDEs & OS
 .vscode/
 .idea/

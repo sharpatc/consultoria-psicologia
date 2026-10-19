@@ -1,0 +1,72 @@
+services:
+  app:
+    build:
+      context: .
+    image: psicoemocional:latest
+    restart: unless-stopped
+    env_file:
+      - path: .env
+        required: false
+    environment:
+      FLASK_ENV: production
+      DB_PATH: /data/database.sqlite
+      PORT: "3000"
+    ports:
+      - "127.0.0.1:${APP_PORT:-3000}:3000"
+    volumes:
+      - database:/data
+    healthcheck:
+      test:
+        - CMD
+        - python
+        - -c
+        - "import urllib.request; urllib.request.urlopen('http://127.0.0.1:3000/', timeout=3)"
+      interval: 30s
+      timeout: 5s
+      start_period: 10s
+      retries: 3
+
+  reminders:
+    build:
+      context: .
+    image: psicoemocional:latest
+    restart: unless-stopped
+    env_file:
+      - path: .env
+        required: false
+    environment:
+      FLASK_ENV: production
+      DB_PATH: /data/database.sqlite
+    command: ["python", "-m", "scripts.send_appointment_reminders"]
+    healthcheck:
+      disable: true
+    volumes:
+      - database:/data
+    depends_on:
+      app:
+        condition: service_healthy
+
+  caddy:
+    image: caddy:2-alpine
+    restart: unless-stopped
+    profiles:
+      - internet
+    environment:
+      DOMAIN: ${DOMAIN:-}
+      ACME_EMAIL: ${ACME_EMAIL:-}
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy-data:/data
+      - caddy-config:/config
+    depends_on:
+      app:
+        condition: service_healthy
+
+volumes:
+  database:
+  caddy-data:
+  caddy-config:

@@ -102,7 +102,8 @@
     </div>
     <div class="email-body">
       <h2>Hola, {{ patient_name }}!</h2>
-      <p>Nos complace confirmarte que tu cita ha sido agendada con exito.</p>
+      <p><strong>{{ email_heading }}</strong></p>
+      <p>{{ email_introduction }}</p>
       
       <div class="appointment-card">
         <div class="appointment-item">

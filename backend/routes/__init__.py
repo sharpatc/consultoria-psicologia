@@ -3,6 +3,7 @@ from .appointment_routes import appointment_bp
 from .dashboard_routes import dashboard_bp
 from .user_routes import user_bp
 from .static_routes import static_bp
+from .clinical_routes import clinical_bp
 
 def register_routes(app):
     """Registers all blueprints to the Flask application instance."""
@@ -10,7 +11,8 @@ def register_routes(app):
     app.register_blueprint(appointment_bp)
     app.register_blueprint(dashboard_bp)
     app.register_blueprint(user_bp)
+    app.register_blueprint(clinical_bp)
     # Register static_bp last to avoid capturing API routes
     app.register_blueprint(static_bp)
 
-__all__ = ['register_routes', 'auth_bp', 'appointment_bp', 'dashboard_bp', 'user_bp', 'static_bp']
+__all__ = ['register_routes', 'auth_bp', 'appointment_bp', 'dashboard_bp', 'user_bp', 'clinical_bp', 'static_bp']

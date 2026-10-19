@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Panel Admin - Consultorio Psicologico</title>
+    <title>PsicoEmocional | Panel de gestion</title>
     <link rel="stylesheet" href="/admin/css/admin.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -15,17 +15,10 @@
         <aside class="sidebar" id="sidebar">
             <div class="sidebar-header">
                 <div class="sidebar-brand">
-                    <div class="brand-icon">
-                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/>
-                            <path d="M8 14s1.5 2 4 2 4-2 4-2"/>
-                            <line x1="9" y1="9" x2="9.01" y2="9"/>
-                            <line x1="15" y1="9" x2="15.01" y2="9"/>
-                        </svg>
-                    </div>
+                    <img src="/assets/psicoemocional-logo.jpeg" class="brand-logo" alt="PsicoEmocional">
                     <div class="brand-text">
-                        <span class="brand-name">Panel Admin</span>
-                        <span class="brand-sub">Psicologia</span>
+                        <span class="brand-name">PsicoEmocional</span>
+                        <span class="brand-sub">Panel de gestion</span>
                     </div>
                 </div>
                 <button class="sidebar-toggle" id="sidebarToggle" aria-label="Toggle sidebar">
@@ -51,6 +44,16 @@
                                 <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
                             </svg>
                             <span>Gestor de Citas</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" id="navClinical" class="nav-link" data-panel="clinical" hidden>
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M8 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2h-3"/>
+                                <path d="M8 3a2 2 0 0 0 2 2h4a2 2 0 0 0 2-2 2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2z"/>
+                                <path d="M12 11v6m-3-3h6"/>
+                            </svg>
+                            <span>Evaluaciones y sesiones</span>
                         </a>
                     </li>
                     <li>
@@ -247,6 +250,29 @@
                     <div class="pagination" id="pagination"></div>
                 </section>
 
+                <section class="content-panel" id="panelClinical">
+                    <div class="clinical-notice">
+                        Informacion clinica sensible. Este apartado es exclusivo para administradores.
+                    </div>
+                    <div class="panel-toolbar">
+                        <div class="toolbar-left">
+                            <div class="search-box">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                                </svg>
+                                <input type="search" id="clinicalSearch" placeholder="Buscar paciente..." autocomplete="off">
+                            </div>
+                        </div>
+                        <div class="toolbar-right">
+                            <button id="refreshClinicalBtn" class="btn btn-outline btn-sm">Refrescar</button>
+                            <button id="newEvaluationBtn" class="btn btn-primary btn-sm">Nueva evaluacion</button>
+                        </div>
+                    </div>
+                    <div class="clinical-records" id="clinicalRecords">
+                        <div class="loading-state"><div class="spinner"></div><p>Cargando evaluaciones...</p></div>
+                    </div>
+                </section>
+
                 <!-- Users Panel -->
                 <section class="content-panel" id="panelUsers">
                     <div class="panel-toolbar">
@@ -283,6 +309,99 @@
                 </section>
             </div>
         </main>
+    </div>
+
+    <div id="evaluationModal" class="modal-overlay">
+        <div class="modal modal-clinical">
+            <div class="modal-header">
+                <h2 id="evaluationModalTitle">Evaluacion psicologica infantil y adolescente</h2>
+                <button class="modal-close" id="closeEvaluationModal" aria-label="Cerrar">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p class="modal-description">Completa la ficha de evaluacion. Los campos se guardan solo en el panel administrativo.</p>
+                <form id="evaluationForm">
+                    <div id="clinicalEvaluationFields"></div>
+                    <div class="modal-actions">
+                        <button type="button" class="btn btn-outline" id="cancelEvaluationBtn">Cancelar</button>
+                        <button type="submit" class="btn btn-primary" id="saveEvaluationBtn">Guardar evaluacion</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div id="clinicalDetailModal" class="modal-overlay">
+        <div class="modal modal-clinical">
+            <div class="modal-header">
+                <h2 id="clinicalDetailTitle">Ficha del paciente</h2>
+                <button class="modal-close" id="closeClinicalDetail" aria-label="Cerrar">&times;</button>
+            </div>
+            <div class="modal-body" id="clinicalDetailBody"></div>
+        </div>
+    </div>
+
+    <div id="sessionModal" class="modal-overlay">
+        <div class="modal modal-lg">
+            <div class="modal-header">
+                <h2 id="sessionModalTitle">Registrar atencion</h2>
+                <button class="modal-close" id="closeSessionModal" aria-label="Cerrar">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="clinicalSessionForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="clinicalSessionDate">Fecha de atencion</label>
+                            <input type="date" id="clinicalSessionDate" name="session_date" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="clinicalSessionDuration">Duracion (minutos)</label>
+                            <input type="number" id="clinicalSessionDuration" name="duration_minutes" min="15" max="240" value="50" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="clinicalSessionModality">Modalidad</label>
+                            <select id="clinicalSessionModality" name="modality" required>
+                                <option value="Presencial">Presencial</option>
+                                <option value="Virtual">Virtual</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="clinicalSessionAttendance">Asistencia</label>
+                            <select id="clinicalSessionAttendance" name="attendance" required>
+                                <option value="Atendida">Atendida</option>
+                                <option value="No asistio">No asistio</option>
+                                <option value="Cancelada">Cancelada</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="clinicalSessionFocus">Tema / objetivo de la sesion</label>
+                        <textarea id="clinicalSessionFocus" name="focus" maxlength="2000" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="clinicalSessionInterventions">Intervenciones realizadas</label>
+                        <textarea id="clinicalSessionInterventions" name="interventions" maxlength="4000"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="clinicalSessionProgress">Observaciones y progreso</label>
+                        <textarea id="clinicalSessionProgress" name="progress" maxlength="4000"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="clinicalSessionAgreements">Acuerdos / tareas</label>
+                        <textarea id="clinicalSessionAgreements" name="agreements" maxlength="2000"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="clinicalSessionNext">Seguimiento / proxima sesion</label>
+                        <input type="text" id="clinicalSessionNext" name="next_session" maxlength="500">
+                    </div>
+                    <div class="modal-actions">
+                        <button type="button" class="btn btn-outline" id="cancelSessionBtn">Cancelar</button>
+                        <button type="submit" class="btn btn-primary">Guardar atencion</button>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
 
     <!-- Modal: View Message -->
@@ -338,7 +457,7 @@
                             <option value="Presencial">Presencial (Consultorio)</option>
                         </select>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group" id="scheduleNotesGroup">
                         <label for="notasCita">Notas Privadas</label>
                         <textarea id="notasCita" name="notas" rows="3" placeholder="Notas internas sobre el paciente..."></textarea>
                     </div>
@@ -451,5 +570,6 @@
     <div class="toast-container" id="toastContainer"></div>
 
     <script src="/admin/js/script.js"></script>
+    <script src="/admin/js/clinical.js"></script>
 </body>
 </html>

@@ -79,12 +79,12 @@ document.addEventListener('DOMContentLoaded', () => {
 VERSION:3.0
 N:Bailey;Zumaikira;;;
 FN:Zumaikira Bailey
-ORG:Consultoria Psicologica
-TITLE:Psicologa (C.I.P. 8362)
+ORG:PsicoEmocional
+TITLE:Psicóloga (C.I.P. 8362)
 TEL;TYPE=CELL,VOICE:+5076235281
 EMAIL;TYPE=INTERNET:Zumaikirabailey98@gmail.com
-ADR;TYPE=WORK:;;Atlantic plaza, primer piso local 127, oficina #224;Panama;;;
-NOTE:Tu bienestar mental es tu mejor version. Atencion a ninos, adolescentes y adultos.
+ADR;TYPE=WORK:;;Atlantic plaza, primer piso local 127, oficina #224;Panamá;;;
+NOTE:PsicoEmocional - Conectamos mente, emociones y bienestar. Atención a niños, adolescentes y adultos.
 END:VCARD`;
 
     // Generate QR

@@ -53,6 +53,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             setTimeout(() => toast.remove(), 300);
         }, 4000);
     }
+    window.showToast = showToast;
 
     function showConfirm(title, message) {
         return new Promise((resolve) => {
@@ -124,6 +125,13 @@ document.addEventListener('DOMContentLoaded', async () => {
         document.getElementById('sidebarAvatar').textContent = initial;
         document.getElementById('sidebarUserName').textContent = displayName;
         document.getElementById('sidebarUserRole').textContent = authData.role === 'admin' ? 'Administrador' : 'Visualizador';
+        document.getElementById('navClinical').hidden = authData.role !== 'admin';
+        document.getElementById('navUsers').hidden = authData.role !== 'admin';
+        document.getElementById('myAccountLink').hidden = authData.role !== 'admin';
+        if (authData.role === 'viewer') {
+            document.getElementById('scheduleNotesGroup').hidden = true;
+            document.getElementById('btnSubmitSchedule').textContent = 'Aceptar cita y enviar correo';
+        }
     } catch (e) {
         window.location.href = 'login.html';
         return;
@@ -171,13 +179,15 @@ document.addEventListener('DOMContentLoaded', async () => {
     const navDashboard = document.getElementById('navDashboard');
     const navMessages = document.getElementById('navMessages');
     const navUsers = document.getElementById('navUsers');
+    const navClinical = document.getElementById('navClinical');
     const panelDashboard = document.getElementById('panelDashboard');
     const panelMessages = document.getElementById('panelMessages');
     const panelUsers = document.getElementById('panelUsers');
+    const panelClinical = document.getElementById('panelClinical');
     const pageTitle = document.getElementById('pageTitle');
 
-    const navLinks = [navDashboard, navMessages, navUsers];
-    const panels = [panelDashboard, panelMessages, panelUsers];
+    const navLinks = [navDashboard, navMessages, navClinical, navUsers];
+    const panels = [panelDashboard, panelMessages, panelClinical, panelUsers];
 
     function switchPanel(activeNav, activePanel, title) {
         navLinks.forEach(n => n.classList.remove('active'));
@@ -191,6 +201,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     navDashboard.addEventListener('click', (e) => { e.preventDefault(); switchPanel(navDashboard, panelDashboard, 'Panel Principal'); loadDashboard(); });
     navMessages.addEventListener('click', (e) => { e.preventDefault(); switchPanel(navMessages, panelMessages, 'Gestion de Citas'); loadAppointments(); });
+    navClinical.addEventListener('click', (e) => { e.preventDefault(); switchPanel(navClinical, panelClinical, 'Evaluaciones y sesiones'); });
     navUsers.addEventListener('click', (e) => { e.preventDefault(); switchPanel(navUsers, panelUsers, 'Gestion de Usuarios'); loadUsers(); });
 
     document.getElementById('goToMessages').addEventListener('click', (e) => { e.preventDefault(); switchPanel(navMessages, panelMessages, 'Gestion de Citas'); loadAppointments(); });
@@ -341,7 +352,8 @@ document.addEventListener('DOMContentLoaded', async () => {
                     </span>
                 `;
             } else if (app.estado !== 'Cancelada') {
-                actionsHTML = `<button onclick="openScheduleModal(${app.id})" class="btn btn-primary btn-sm">Agendar</button>`;
+                const actionLabel = currentRole === 'viewer' ? 'Aceptar cita' : 'Agendar';
+                actionsHTML = `<button onclick="openScheduleModal(${app.id})" class="btn btn-primary btn-sm">${actionLabel}</button>`;
             }
 
             let cardMeta = '';
@@ -368,7 +380,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 </div>
                 <div class="appointment-actions">
                     ${actionsHTML}
-                    ${app.estado !== 'Cancelada' && app.estado !== 'Agendada' ? `<button onclick="cancelAppointment(${app.id})" class="btn btn-outline btn-sm" title="Cancelar cita">Cancelar</button>` : ''}
+                    ${currentRole === 'admin' && app.estado !== 'Cancelada' && app.estado !== 'Agendada' ? `<button onclick="cancelAppointment(${app.id})" class="btn btn-outline btn-sm" title="Cancelar cita">Cancelar</button>` : ''}
                 </div>
             `;
             appointmentsList.appendChild(card);
@@ -444,7 +456,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         const rawDate = document.getElementById('fechaCita').value;
         const rawTime = document.getElementById('horaCita').value;
-        const formattedDateTime = `${rawDate} a las ${rawTime}`;
+        const formattedDateTime = `${rawDate}T${rawTime}:00`;
 
         const data = {
             fecha_cita: formattedDateTime,
@@ -463,11 +475,18 @@ document.addEventListener('DOMContentLoaded', async () => {
             const result = await res.json();
 
             if (res.ok) {
-                showToast('Cita agendada y correo enviado exitosamente', 'success');
+                showToast(
+                    result.message || 'Cita agendada',
+                    result.email_simulated ? 'info' : 'success'
+                );
                 document.getElementById('scheduleModal').classList.remove('active');
                 loadAppointments();
             } else {
                 showToast(result.error || 'Error al agendar', 'error');
+                if (result.appointment_scheduled) {
+                    document.getElementById('scheduleModal').classList.remove('active');
+                    loadAppointments();
+                }
             }
         } catch (e) {
             showToast('Error de conexion con el servidor', 'error');

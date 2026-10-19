@@ -1,6 +1,11 @@
-# Consultorio Psicológico - Sistema Web y Panel Administrativo
+# PsicoEmocional - Sistema Web y Panel Administrativo
 
 Plataforma web integral para consultoría psicológica, con sitio público para pacientes (información, servicios, tarjeta digital 3D interactiva y formulario de contacto/agendamiento) y un panel administrativo completo para la gestión de citas, pacientes y usuarios con roles.
+
+El panel incluye evaluaciones psicológicas infantiles/adolescentes y un historial de atenciones editable. Estas fichas contienen datos clínicos sensibles: las rutas requieren una cuenta con rol de administrador y los datos se guardan en SQLite sin cifrado de aplicación. Restringe el acceso a la base de datos y sus copias de seguridad; no uses datos reales hasta definir y aplicar las medidas de protección exigidas para tu entorno.
+
+Para ejecutar con Docker, conservar SQLite en un volumen persistente y desplegar
+con HTTPS, consulta la [guía de Docker](./README.Docker.md).
 
 ---
 
@@ -21,14 +26,15 @@ La nueva arquitectura implementa las mejores prácticas recomendadas por la comu
    - `appointment_routes`: Gestión de citas y mensajes de contacto (`/api/contact`, `/api/messages`, etc.).
    - `dashboard_routes`: Métricas y estadísticas del consultorio (`/api/dashboard/stats`).
    - `user_routes`: Gestión de administradores, visualizadores y perfiles (`/api/users`, `/api/profile`).
+   - `clinical_routes`: Evaluaciones infantiles/adolescentes e historial de atenciones, con acceso exclusivo de administradores (`/api/clinical`).
    - `static_routes`: Servidor seguro de páginas públicas y estáticas.
 3. **Capa de Servicios (Lógica de Negocio)**:
    - `AuthService`: Hashing seguro (Werkzeug pbkdf2:sha256), verificación de credenciales y gestión de sesiones.
    - `EmailService`: Renderizado de plantillas HTML y despacho de correos SMTP con modo de simulación automático en desarrollo.
 4. **Capa de Acceso a Datos (Patrón Repositorio)**:
-   - `UserRepository` y `MessageRepository`: Consultas SQL parametrizadas, aislamiento de la base de datos y control de integridad.
+   - `UserRepository`, `MessageRepository` y `ClinicalRepository`: Consultas SQL parametrizadas, persistencia de evaluaciones y sesiones, e integridad referencial.
 5. **Capa de Base de Datos y Migraciones**:
-   - `schema.sql`: Definición declarativa de tablas e índices (`users`, `messages`).
+   - `schema.sql`: Definición declarativa de tablas e índices (`users`, `messages`, `clinical_evaluations`, `clinical_sessions`).
    - `migrations.py`: Inicialización automática e idempotente (agrega columnas si es necesario sin perder datos).
    - `connection.py`: Administrador de conexiones con context managers para commit/rollback automático.
 6. **Capa de Middleware y Seguridad**:
@@ -54,7 +60,8 @@ consultoria-psicologia-main/
 │   │   └── schema.sql                    # Definición declarativa del esquema SQL
 │   ├── models/                           # Capa de Acceso a Datos (Repositorios)
 │   │   ├── __init__.py
-│   │   ├── message_repository.py         # Repositorio de mensajes y citas
+│   │   ├── clinical_repository.py        # Evaluaciones y atenciones (solo administración)
+│   ├── message_repository.py         # Repositorio de mensajes y citas
 │   │   └── user_repository.py            # Repositorio de usuarios y permisos
 │   ├── services/                         # Lógica de Negocio
 │   │   ├── __init__.py
@@ -63,6 +70,7 @@ consultoria-psicologia-main/
 │   ├── routes/                           # Controladores HTTP (Blueprints)
 │   │   ├── __init__.py                   # Registro central de rutas
 │   │   ├── appointment_routes.py         # Endpoints de citas y contacto
+│   ├── clinical_routes.py            # Endpoints protegidos de fichas y atenciones
 │   │   ├── auth_routes.py                # Endpoints de login y sesión
 │   │   ├── dashboard_routes.py           # Endpoints de estadísticas
 │   │   ├── static_routes.py              # Servidor de archivos estáticos y páginas
@@ -147,9 +155,12 @@ El servidor arrancará en: **http://localhost:3000**
 - Sitio web público: `http://localhost:3000/`
 - Panel administrativo: `http://localhost:3000/admin`
 
-> **Credenciales por defecto del Administrador**:
+> **Solo para ejecución local sin Docker**, las credenciales de administrador iniciales son:
 > - **Usuario**: `admin`
 > - **Contraseña**: `admin123`
+>
+> Docker requiere configurar `ADMIN_USERNAME` y `ADMIN_PASSWORD` en `.env`; no usa
+> las credenciales de desarrollo.
 
 ---
 
